@@ -1,0 +1,13 @@
+[submodule "funcons"]
+	path = funcons
+	url = https://github.com/plancomps/funcons-tools.git
+	branch = non-determinism
+[submodule "Unstable-Languages-beta/SIMPLE-Threads/SIMPLE-THR-cbs"]
+	path = Unstable-Languages-beta/SIMPLE-Threads/SIMPLE-THR-cbs
+	url = https://github.com/plancomps/CBS-beta.git
+[submodule "simple"]
+	path = simple
+	url = https://github.com/plancomps/CBS-beta.git
+[submodule "CBS-beta"]
+	path = CBS-beta
+	url = https://github.com/plancomps/CBS-beta.git
