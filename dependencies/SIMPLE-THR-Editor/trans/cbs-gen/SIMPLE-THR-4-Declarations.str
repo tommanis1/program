@@ -1,0 +1,80 @@
+module SIMPLE-THR-4-Declarations
+
+imports
+  libstratego-gpp
+  signatures/-
+  pp/SIMPLE-THR-parenthesize
+  pp/SIMPLE-THR-pp
+
+imports
+  cbs-gen/SIMPLE-THR-5-Programs
+  cbs-gen/SIMPLE-THR-3-Statements
+  cbs-gen/SIMPLE-THR-1-Lexical
+  cbs-gen/SIMPLE-THR-2-Expressions
+
+// Language "SIMPLE-THR"
+
+rules
+
+// #4 Declarations
+              
+
+to-desugared:
+  [: var(:Declarator:),(:Declarators:);(:Stmts?:) :] : stmts ->
+  [: var(:Declarator:);var(:Declarators:);(:Stmts?:) :] : stmts
+to-desugared:
+  [: var(:Declarator:),(:Declarators:);(:Decls?:) :] : decls ->
+  [: var(:Declarator:);var(:Declarators:);(:Decls?:) :] : decls
+to-funcons:
+  |[ declare[: var(:Declarator:); :] ]| ->
+  |[ var-declare[: (:Declarator:) :] ]|
+to-funcons:
+  |[ var-declare[: (:Id:) :] ]| ->
+  |[ bind (id[: (:Id:) :], 
+             allocate-variable (values)) ]|
+to-funcons:
+  |[ var-declare[: (:Id:)=(:Exp:) :] ]| ->
+  |[ bind (id[: (:Id:) :], 
+             allocate-initialised-variable (values, 
+                     rval[: (:Exp:) :])) ]|
+to-funcons:
+  |[ var-declare[: (:Id:)(:Ranks:) :] ]| ->
+  |[ bind (id[: (:Id:) :], 
+             allocate-nested-vectors (ranks[: (:Ranks:) :])) ]|
+to-desugared:
+  [: [(:Exp:),(:Exps:)](:Ranks?:) :] : ranks ->
+  [: [(:Exp:)][(:Exps:)](:Ranks?:) :] : ranks
+to-funcons:
+  |[ ranks[: [(:Exp:)] :] ]| ->
+  |[ rval[: (:Exp:) :] ]|
+to-funcons:
+  |[ ranks[: [(:Exp:)](:Ranks:) :] ]| ->
+  |[ rval[: (:Exp:) :], 
+     ranks[: (:Ranks:) :] ]|
+to-funcons:
+  |[ declare[: function(:Id:)((:Ids?:))(:Block:) :] ]| ->
+  |[ bind (id[: (:Id:) :], 
+             allocate-variable (functions (tuples ((values)*), 
+                             values))) ]|
+to-funcons:
+  |[ initialise[: var(:Declarators:); :] ]| ->
+  |[ null ]|
+to-funcons:
+  |[ initialise[: function(:Id:)((:Ids?:))(:Block:) :] ]| ->
+  |[ assign (bound (id[: (:Id:) :]), 
+             function closure (scope (match (given, 
+                                            tuple (patts[: (:Ids?:) :])), 
+                                    handle-return (exec[: (:Block:) :])))) ]|
+to-funcons:
+  |[ patts[:  :] ]| ->
+  |[ () ]|
+to-funcons:
+  |[ patts[: (:Id:) :] ]| ->
+  |[ pattern closure (bind (id[: (:Id:) :], 
+                            allocate-initialised-variable (values, 
+                                    given))) ]|
+to-funcons:
+  |[ patts[: (:Id:),(:Ids:) :] ]| ->
+  |[ patts[: (:Id:) :], 
+     patts[: (:Ids:) :] ]|
+

@@ -1,0 +1,20 @@
+module SIMPLE-THR-A-Disambiguation
+
+imports
+  libstratego-gpp
+  signatures/-
+  pp/SIMPLE-THR-parenthesize
+  pp/SIMPLE-THR-pp
+
+imports
+  cbs-gen/SIMPLE-THR-2-Expressions
+  cbs-gen/SIMPLE-THR-1-Lexical
+
+// Language "SIMPLE-THR"
+
+rules
+
+// #A Disambiguation
+              
+
+

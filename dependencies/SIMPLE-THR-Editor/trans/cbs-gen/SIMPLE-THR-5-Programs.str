@@ -1,0 +1,39 @@
+module SIMPLE-THR-5-Programs
+
+imports
+  libstratego-gpp
+  signatures/-
+  pp/SIMPLE-THR-parenthesize
+  pp/SIMPLE-THR-pp
+
+imports
+  cbs-gen/SIMPLE-THR-4-Declarations
+
+// Language "SIMPLE-THR"
+
+rules
+
+// #5 Programs
+              
+
+to-funcons:
+  |[ run[: (:Decls:) :] ]| ->
+  |[ scope (collateral (declarations[: (:Decls:) :]), 
+             sequential (initialisations[: (:Decls:) :], 
+                     apply (assigned (bound ("main")), 
+                             tuple ()))) ]|
+to-funcons:
+  |[ declarations[: (:Decl:) :] ]| ->
+  |[ declare[: (:Decl:) :] ]|
+to-funcons:
+  |[ declarations[: (:Decl:)(:Decls:) :] ]| ->
+  |[ declare[: (:Decl:) :], 
+     declarations[: (:Decls:) :] ]|
+to-funcons:
+  |[ initialisations[: (:Decl:) :] ]| ->
+  |[ initialise[: (:Decl:) :] ]|
+to-funcons:
+  |[ initialisations[: (:Decl:)(:Decls:) :] ]| ->
+  |[ initialise[: (:Decl:) :], 
+     initialisations[: (:Decls:) :] ]|
+

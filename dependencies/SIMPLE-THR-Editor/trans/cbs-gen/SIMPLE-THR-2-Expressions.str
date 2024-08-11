@@ -1,0 +1,136 @@
+module SIMPLE-THR-2-Expressions
+
+imports
+  libstratego-gpp
+  signatures/-
+  pp/SIMPLE-THR-parenthesize
+  pp/SIMPLE-THR-pp
+
+imports
+  cbs-gen/SIMPLE-THR-3-Statements
+  cbs-gen/SIMPLE-THR-1-Lexical
+
+// Language "SIMPLE-THR"
+
+rules
+
+// #2 Expressions
+              
+
+to-desugared:
+  [: ((:Exp:)) :] : exp ->
+  [: (:Exp:) :] : exp
+to-funcons:
+  |[ rval[: (:V:) :] ]| ->
+  |[ val[: (:V:) :] ]|
+to-funcons:
+  |[ rval[: (:LExp:) :] ]| ->
+  |[ assigned (lval[: (:LExp:) :]) ]|
+to-funcons:
+  |[ rval[: (:LExp:)=(:Exp:) :] ]| ->
+  |[ give (rval[: (:Exp:) :], 
+             sequential (assign (lval[: (:LExp:) :], 
+                             given), 
+                     given)) ]|
+to-funcons:
+  |[ rval[: ++(:LExp:) :] ]| ->
+  |[ give (lval[: (:LExp:) :], 
+             sequential (assign (given, 
+                             integer-add (assigned (given), 
+                                     1)), 
+                     assigned (given))) ]|
+to-funcons:
+  |[ rval[: -(:Exp:) :] ]| ->
+  |[ integer-negate (rval[: (:Exp:) :]) ]|
+to-funcons:
+  |[ rval[: (:Exp:)((:Exps?:)) :] ]| ->
+  |[ apply (rval[: (:Exp:) :], 
+             tuple (rvals[: (:Exps?:) :])) ]|
+to-funcons:
+  |[ rval[: sizeOf((:Exp:)) :] ]| ->
+  |[ length (vector-elements (rval[: (:Exp:) :])) ]|
+to-funcons:
+  |[ rval[: read() :] ]| ->
+  |[ read ]|
+to-funcons:
+  |[ rval[: (:Exp1:)+(:Exp2:) :] ]| ->
+  |[ integer-add (rval[: (:Exp1:) :], 
+             rval[: (:Exp2:) :]) ]|
+to-funcons:
+  |[ rval[: (:Exp1:)-(:Exp2:) :] ]| ->
+  |[ integer-subtract (rval[: (:Exp1:) :], 
+             rval[: (:Exp2:) :]) ]|
+to-funcons:
+  |[ rval[: (:Exp1:)*(:Exp2:) :] ]| ->
+  |[ integer-multiply (rval[: (:Exp1:) :], 
+             rval[: (:Exp2:) :]) ]|
+to-funcons:
+  |[ rval[: (:Exp1:)/(:Exp2:) :] ]| ->
+  |[ checked integer-divide (rval[: (:Exp1:) :], 
+                    rval[: (:Exp2:) :]) ]|
+to-funcons:
+  |[ rval[: (:Exp1:)%(:Exp2:) :] ]| ->
+  |[ checked integer-modulo (rval[: (:Exp1:) :], 
+                    rval[: (:Exp2:) :]) ]|
+to-funcons:
+  |[ rval[: (:Exp1:)<(:Exp2:) :] ]| ->
+  |[ is-less (rval[: (:Exp1:) :], 
+             rval[: (:Exp2:) :]) ]|
+to-funcons:
+  |[ rval[: (:Exp1:)<=(:Exp2:) :] ]| ->
+  |[ is-less-or-equal (rval[: (:Exp1:) :], 
+             rval[: (:Exp2:) :]) ]|
+to-funcons:
+  |[ rval[: (:Exp1:)>(:Exp2:) :] ]| ->
+  |[ is-greater (rval[: (:Exp1:) :], 
+             rval[: (:Exp2:) :]) ]|
+to-funcons:
+  |[ rval[: (:Exp1:)>=(:Exp2:) :] ]| ->
+  |[ is-greater-or-equal (rval[: (:Exp1:) :], 
+             rval[: (:Exp2:) :]) ]|
+to-funcons:
+  |[ rval[: (:Exp1:)==(:Exp2:) :] ]| ->
+  |[ is-equal (rval[: (:Exp1:) :], 
+             rval[: (:Exp2:) :]) ]|
+to-funcons:
+  |[ rval[: (:Exp1:)!=(:Exp2:) :] ]| ->
+  |[ not (is-equal (rval[: (:Exp1:) :], 
+                     rval[: (:Exp2:) :])) ]|
+to-funcons:
+  |[ rval[: !(:Exp:) :] ]| ->
+  |[ not (rval[: (:Exp:) :]) ]|
+to-funcons:
+  |[ rval[: (:Exp1:)&&(:Exp2:) :] ]| ->
+  |[ if-else (rval[: (:Exp1:) :], 
+             rval[: (:Exp2:) :], 
+             false) ]|
+to-funcons:
+  |[ rval[: (:Exp1:)||(:Exp2:) :] ]| ->
+  |[ if-else (rval[: (:Exp1:) :], 
+             true, 
+             rval[: (:Exp2:) :]) ]|
+to-funcons:
+  |[ rval[: spawn(:Block:) :] ]| ->
+  |[ allocate-index thread-activate thread-joinable thunk closure postpone-after-effect exec[: (:Block:) :] ]|
+to-funcons:
+  |[ rvals[:  :] ]| ->
+  |[ () ]|
+to-funcons:
+  |[ rvals[: (:Exp:) :] ]| ->
+  |[ rval[: (:Exp:) :] ]|
+to-funcons:
+  |[ rvals[: (:Exp:),(:Exps:) :] ]| ->
+  |[ rval[: (:Exp:) :], 
+     rvals[: (:Exps:) :] ]|
+to-desugared:
+  [: (:LExp:)[(:Exp:),(:Exps:)] :] : lexp ->
+  [: (:LExp:)[(:Exp:)][(:Exps:)] :] : lexp
+to-funcons:
+  |[ lval[: (:Id:) :] ]| ->
+  |[ bound (id[: (:Id:) :]) ]|
+to-funcons:
+  |[ lval[: (:LExp:)[(:Exp:)] :] ]| ->
+  |[ checked index (integer-add (1, 
+                            rval[: (:Exp:) :]), 
+                    vector-elements (rval[: (:LExp:) :])) ]|
+

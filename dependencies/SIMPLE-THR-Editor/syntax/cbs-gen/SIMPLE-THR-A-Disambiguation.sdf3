@@ -1,0 +1,156 @@
+module SIMPLE-THR-A-Disambiguation
+            
+imports 
+  SIMPLE-THR-2-Expressions
+  SIMPLE-THR-1-Lexical
+  Funcons
+
+// Language "SIMPLE-THR"
+    
+lexical syntax // Language
+  
+  // #A Disambiguation
+                
+  
+  
+syntax // Language
+  
+  // #A Disambiguation
+                
+  
+  
+context-free syntax // Language
+  
+  // #A Disambiguation
+                
+  
+  
+context-free syntax // Semantics
+  
+  // #A Disambiguation
+                
+  
+  
+context-free syntax // Desugaring
+  
+  // #A Disambiguation
+                
+  
+  
+variables // Meta-variables
+  
+  // #A Disambiguation
+                
+  
+  
+// SDF comments
+  
+  // #A Disambiguation
+                
+  
+  
+  lexical syntax
+    LEX-id = LEX-keyword {reject}
+  
+  lexical restrictions
+    LEX-id -/- [A-Za-z0-9]
+  
+  context-free syntax
+  L-exp.L-exp--L-exp-STAR-L-exp =
+    L-exp "*" L-exp
+   {left}
+  L-exp.L-exp--L-exp-SLASH-L-exp =
+    L-exp "/" L-exp
+   {left}
+  L-exp.L-exp--L-exp-PERCENT-L-exp =
+    L-exp "%" L-exp
+   {left}
+  
+  L-exp.L-exp--L-exp-PLUS-L-exp =
+    L-exp "+" L-exp
+   {left}
+  L-exp.L-exp--L-exp-DASH-L-exp =
+    L-exp "-" L-exp
+   {left}
+  
+  L-exp.L-exp--L-exp-AMPERSAND-AMPERSAND-L-exp =
+    L-exp "&&" L-exp
+   {left}
+  L-exp.L-exp--L-exp-BAR-BAR-L-exp =
+    L-exp "||" L-exp
+   {left}
+  
+  context-free priorities
+  {
+  L-exp.L-exp--L-exp-LPAREN-L-exps-Q-RPAREN =
+    L-exp "(" L-exps? ")"
+  
+  } >
+  {
+  L-exp.L-exp--DASH-L-exp =
+    "-" L-exp
+  
+  L-exp.L-exp--PLUS-PLUS-L-lexp =
+    "++" L-lexp
+  
+  L-exp.L-exp--BANG-L-exp =
+    "!" L-exp
+  
+  } >
+  {left:
+  L-exp.L-exp--L-exp-STAR-L-exp =
+    L-exp "*" L-exp
+  
+  L-exp.L-exp--L-exp-SLASH-L-exp =
+    L-exp "/" L-exp
+  
+  L-exp.L-exp--L-exp-PERCENT-L-exp =
+    L-exp "%" L-exp
+  
+  } >
+  {left:
+  L-exp.L-exp--L-exp-PLUS-L-exp =
+    L-exp "+" L-exp
+  
+  L-exp.L-exp--L-exp-DASH-L-exp =
+    L-exp "-" L-exp
+  
+  } >
+  {non-assoc:
+  L-exp.L-exp--L-exp-LESS-L-exp =
+    L-exp "<" L-exp
+  
+  L-exp.L-exp--L-exp-LESS-EQUALS-L-exp =
+    L-exp "<=" L-exp
+  
+  L-exp.L-exp--L-exp-GREATER-L-exp =
+    L-exp ">" L-exp
+  
+  L-exp.L-exp--L-exp-GREATER-EQUALS-L-exp =
+    L-exp ">=" L-exp
+  
+  L-exp.L-exp--L-exp-EQUALS-EQUALS-L-exp =
+    L-exp "==" L-exp
+  
+  L-exp.L-exp--L-exp-BANG-EQUALS-L-exp =
+    L-exp "!=" L-exp
+  
+  } >
+  {assoc:
+  L-exp.L-exp--L-exp-AMPERSAND-AMPERSAND-L-exp =
+    L-exp "&&" L-exp
+  
+  } >
+  {assoc:
+  L-exp.L-exp--L-exp-BAR-BAR-L-exp =
+    L-exp "||" L-exp
+  
+  } >
+  {
+  L-exp.L-exp--L-lexp-EQUALS-L-exp =
+    L-lexp "=" L-exp
+  
+  }
+  
+sorts // ASTs
+  T-start

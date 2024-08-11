@@ -1,0 +1,23 @@
+module SIMPLE-THR-Start
+
+imports
+  libstratego-gpp
+  signatures/-
+  pp/SIMPLE-THR-parenthesize
+  pp/SIMPLE-THR-pp
+
+imports
+  cbs-gen/SIMPLE-THR-1-Lexical
+  cbs-gen/SIMPLE-THR-2-Expressions
+  cbs-gen/SIMPLE-THR-A-Disambiguation
+  cbs-gen/SIMPLE-THR-3-Statements
+  cbs-gen/SIMPLE-THR-4-Declarations
+  cbs-gen/SIMPLE-THR-5-Programs
+
+// Language "SIMPLE-THR"
+
+rules
+to-funcons:
+  |[ start[: (:Pgm:) :] ]| ->
+  |[ initialise-binding initialise-storing initialise-giving initialise-memos finalise-failing finalise-throwing multithread postpone-after-effect run[: (:Pgm:) :] ]|
+

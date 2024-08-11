@@ -1,0 +1,109 @@
+module SIMPLE-THR-1-Lexical
+            
+imports 
+  
+  Funcons
+
+// Language "SIMPLE-THR"
+    
+lexical syntax // Language
+  
+  // #1 Lexical Syntax
+                
+  
+  LEX-int = ( [0-9] )+
+  LEX-id = ( [A-Z] | [a-z] | "_" ) ( [0-9] | [A-Z] | [a-z] | "_" )*
+  LEX-keyword = "false"
+  LEX-keyword = "true"
+  LEX-keyword = "var"
+  LEX-keyword = "function"
+  LEX-keyword = "sizeOf"
+  LEX-keyword = "read"
+  LEX-keyword = "spawn"
+  LEX-keyword = "if"
+  LEX-keyword = "else"
+  LEX-keyword = "while"
+  LEX-keyword = "for"
+  LEX-keyword = "print"
+  LEX-keyword = "return"
+  LEX-keyword = "try"
+  LEX-keyword = "catch"
+  LEX-keyword = "throw"
+  LEX-keyword = "join"
+  LEX-keyword = "acquire"
+  LEX-keyword = "release"
+  LEX-keyword = "rendezvous"
+  
+syntax // Language
+  
+  // #1 Lexical Syntax
+                
+  
+  
+context-free syntax // Language
+  
+  // #1 Lexical Syntax
+                
+  
+  L-value.L-value--L-bool =
+    L-bool
+  L-value.L-value--L-int =
+    L-int
+  
+  L-bool.L-bool--R-false =
+    "false"
+  L-bool.L-bool--R-true =
+    "true"
+  
+  L-int.LEX-int = 
+    LEX-int
+  L-id.LEX-id = 
+    LEX-id
+  L-keyword.LEX-keyword = 
+    LEX-keyword
+  
+context-free syntax // Semantics
+  
+  // #1 Lexical Syntax
+                
+  
+  FCT-Quoted.L-int = L-int
+  FCT.T-val =
+    "val" "[:" L-value ":]"
+  FCT-Quoted.L-id = L-id
+  FCT.T-id =
+    "id" "[:" L-id ":]"
+  FCT-Quoted.LEX-keyword = LEX-keyword
+  
+context-free syntax // Desugaring
+  
+  // #1 Lexical Syntax
+                
+  
+  
+variables // Meta-variables
+  
+  // #1 Lexical Syntax
+                
+  
+  L-value = "(:V" [1-9]? ":)" {prefer}
+  L-value? = "(:V" [1-9]? "?:)" {prefer}
+  L-value* = "(:V" [1-9]? "*:)" {prefer}
+  L-value+ = "(:V" [1-9]? "+:)" {prefer}
+  L-int = "(:Z" [1-9]? ":)" {prefer}
+  L-int? = "(:Z" [1-9]? "?:)" {prefer}
+  L-int* = "(:Z" [1-9]? "*:)" {prefer}
+  L-int+ = "(:Z" [1-9]? "+:)" {prefer}
+  L-id = "(:Id" [1-9]? ":)" {prefer}
+  L-id? = "(:Id" [1-9]? "?:)" {prefer}
+  L-id* = "(:Id" [1-9]? "*:)" {prefer}
+  L-id+ = "(:Id" [1-9]? "+:)" {prefer}
+  
+// SDF comments
+  
+  // #1 Lexical Syntax
+                
+  
+  
+sorts // ASTs
+  T-start

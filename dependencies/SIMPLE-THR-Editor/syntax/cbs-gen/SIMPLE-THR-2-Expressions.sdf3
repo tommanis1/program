@@ -1,0 +1,134 @@
+module SIMPLE-THR-2-Expressions
+            
+imports 
+  SIMPLE-THR-3-Statements
+  SIMPLE-THR-1-Lexical
+  Funcons
+
+// Language "SIMPLE-THR"
+    
+lexical syntax // Language
+  
+  // #2 Expressions
+                
+  
+  
+syntax // Language
+  
+  // #2 Expressions
+                
+  
+  
+context-free syntax // Language
+  
+  // #2 Expressions
+                
+  
+  L-exp.L-exp--LPAREN-L-exp-RPAREN =
+    "(" L-exp ")"
+  L-exp.L-exp--L-value =
+    L-value
+  L-exp.L-exp--L-lexp =
+    L-lexp
+  L-exp.L-exp--L-lexp-EQUALS-L-exp =
+    L-lexp "=" L-exp
+  L-exp.L-exp--PLUS-PLUS-L-lexp =
+    "++" L-lexp
+  L-exp.L-exp--DASH-L-exp =
+    "-" L-exp
+  L-exp.L-exp--L-exp-LPAREN-L-exps-Q-RPAREN =
+    L-exp "(" L-exps? ")"
+  L-exp.L-exp--R-sizeOf-LPAREN-L-exp-RPAREN =
+    "sizeOf" "(" L-exp ")"
+  L-exp.L-exp--R-read-LPAREN-RPAREN =
+    "read" "(" ")"
+  L-exp.L-exp--L-exp-PLUS-L-exp =
+    L-exp "+" L-exp
+  L-exp.L-exp--L-exp-DASH-L-exp =
+    L-exp "-" L-exp
+  L-exp.L-exp--L-exp-STAR-L-exp =
+    L-exp "*" L-exp
+  L-exp.L-exp--L-exp-SLASH-L-exp =
+    L-exp "/" L-exp
+  L-exp.L-exp--L-exp-PERCENT-L-exp =
+    L-exp "%" L-exp
+  L-exp.L-exp--L-exp-LESS-L-exp =
+    L-exp "<" L-exp
+  L-exp.L-exp--L-exp-LESS-EQUALS-L-exp =
+    L-exp "<=" L-exp
+  L-exp.L-exp--L-exp-GREATER-L-exp =
+    L-exp ">" L-exp
+  L-exp.L-exp--L-exp-GREATER-EQUALS-L-exp =
+    L-exp ">=" L-exp
+  L-exp.L-exp--L-exp-EQUALS-EQUALS-L-exp =
+    L-exp "==" L-exp
+  L-exp.L-exp--L-exp-BANG-EQUALS-L-exp =
+    L-exp "!=" L-exp
+  L-exp.L-exp--BANG-L-exp =
+    "!" L-exp
+  L-exp.L-exp--L-exp-AMPERSAND-AMPERSAND-L-exp =
+    L-exp "&&" L-exp
+  L-exp.L-exp--L-exp-BAR-BAR-L-exp =
+    L-exp "||" L-exp
+  L-exp.L-exp--R-spawn-L-block =
+    "spawn" L-block
+  
+  L-exps.L-exps--L-exp-C-COMMA-L-exps-D-Q =
+    L-exp L-COMMA-L-exps?
+  
+  L-COMMA-L-exps.L-COMMA-L-exps--COMMA-L-exps =
+    "," L-exps
+  
+  
+  L-lexp.L-lexp--L-id =
+    L-id
+  L-lexp.L-lexp--L-lexp-LBRACK-L-exps-RBRACK =
+    L-lexp "[" L-exps "]"
+  
+  
+context-free syntax // Semantics
+  
+  // #2 Expressions
+                
+  
+  FCT.T-rval =
+    "rval" "[:" L-exp ":]"
+  FCT-SEQ.T-rvals =
+    "rvals" "[:" L-exps? ":]"
+  FCT.T-lval =
+    "lval" "[:" L-lexp ":]"
+  
+context-free syntax // Desugaring
+  
+  // #2 Expressions
+                
+  
+  Term.ToTerm = "[:" L-exp  ":]" ":" "exp"
+  Term.ToTerm = "[:" L-lexp  ":]" ":" "lexp"
+  
+variables // Meta-variables
+  
+  // #2 Expressions
+                
+  
+  L-exp = "(:Exp" [1-9]? ":)" {prefer}
+  L-exp? = "(:Exp" [1-9]? "?:)" {prefer}
+  L-exp* = "(:Exp" [1-9]? "*:)" {prefer}
+  L-exp+ = "(:Exp" [1-9]? "+:)" {prefer}
+  L-exps = "(:Exps" [1-9]? ":)" {prefer}
+  L-exps? = "(:Exps" [1-9]? "?:)" {prefer}
+  L-exps* = "(:Exps" [1-9]? "*:)" {prefer}
+  L-exps+ = "(:Exps" [1-9]? "+:)" {prefer}
+  L-lexp = "(:LExp" [1-9]? ":)" {prefer}
+  L-lexp? = "(:LExp" [1-9]? "?:)" {prefer}
+  L-lexp* = "(:LExp" [1-9]? "*:)" {prefer}
+  L-lexp+ = "(:LExp" [1-9]? "+:)" {prefer}
+  
+// SDF comments
+  
+  // #2 Expressions
+                
+  
+  
+sorts // ASTs
+  T-start

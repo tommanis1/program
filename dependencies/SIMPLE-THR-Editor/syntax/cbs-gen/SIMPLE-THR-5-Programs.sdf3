@@ -1,0 +1,72 @@
+module SIMPLE-THR-5-Programs
+            
+imports 
+  SIMPLE-THR-4-Declarations
+  Funcons
+
+// Language "SIMPLE-THR"
+    
+lexical syntax // Language
+  
+  // #5 Programs
+                
+  
+  
+syntax // Language
+  
+  // #5 Programs
+                
+  
+  
+context-free syntax // Language
+  
+  // #5 Programs
+                
+  
+  L-pgm.L-pgm--L-decls =
+    L-decls
+  
+  L-decls.L-decls--L-decl-L-decls-Q =
+    L-decl L-decls?
+  
+  
+context-free syntax // Semantics
+  
+  // #5 Programs
+                
+  
+  FCT.T-run =
+    "run" "[:" L-pgm ":]"
+  FCT-SEQ.T-declarations =
+    "declarations" "[:" L-decls ":]"
+  FCT-SEQ.T-initialisations =
+    "initialisations" "[:" L-decls ":]"
+  
+context-free syntax // Desugaring
+  
+  // #5 Programs
+                
+  
+  
+variables // Meta-variables
+  
+  // #5 Programs
+                
+  
+  L-pgm = "(:Pgm" [1-9]? ":)" {prefer}
+  L-pgm? = "(:Pgm" [1-9]? "?:)" {prefer}
+  L-pgm* = "(:Pgm" [1-9]? "*:)" {prefer}
+  L-pgm+ = "(:Pgm" [1-9]? "+:)" {prefer}
+  L-decls = "(:Decls" [1-9]? ":)" {prefer}
+  L-decls? = "(:Decls" [1-9]? "?:)" {prefer}
+  L-decls* = "(:Decls" [1-9]? "*:)" {prefer}
+  L-decls+ = "(:Decls" [1-9]? "+:)" {prefer}
+  
+// SDF comments
+  
+  // #5 Programs
+                
+  
+  
+sorts // ASTs
+  T-start

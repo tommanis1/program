@@ -1,0 +1,37 @@
+module SIMPLE-THR-1-Lexical
+
+imports
+  libstratego-gpp
+  signatures/-
+  pp/SIMPLE-THR-parenthesize
+  pp/SIMPLE-THR-pp
+
+imports
+  
+
+// Language "SIMPLE-THR"
+
+rules
+
+// #1 Lexical Syntax
+              
+
+to-funcons-lex: 
+  FCTDoubleQuoted(L-int(LEX-int(str))) -> 
+  FCTString(<double-quote> str)
+to-funcons:
+  |[ val[: false :] ]| ->
+  |[ false ]|
+to-funcons:
+  |[ val[: true :] ]| ->
+  |[ true ]|
+to-funcons:
+  |[ val[: (:Z:) :] ]| ->
+  |[ decimal-natural (\"(:Z:)\") ]|
+to-funcons-lex: 
+  FCTDoubleQuoted(L-id(LEX-id(str))) -> 
+  FCTString(<double-quote> str)
+to-funcons:
+  |[ id[: (:Id:) :] ]| ->
+  |[ \"(:Id:)\" ]|
+

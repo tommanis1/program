@@ -1,0 +1,131 @@
+module SIMPLE-THR-4-Declarations
+            
+imports 
+  SIMPLE-THR-5-Programs
+  SIMPLE-THR-3-Statements
+  SIMPLE-THR-1-Lexical
+  SIMPLE-THR-2-Expressions
+  Funcons
+
+// Language "SIMPLE-THR"
+    
+lexical syntax // Language
+  
+  // #4 Declarations
+                
+  
+  
+syntax // Language
+  
+  // #4 Declarations
+                
+  
+  
+context-free syntax // Language
+  
+  // #4 Declarations
+                
+  
+  L-decl.L-decl--L-vars-decl =
+    L-vars-decl
+  L-decl.L-decl--L-func-decl =
+    L-func-decl
+  
+  L-vars-decl.L-vars-decl--R-var-L-declarators-SEMI =
+    "var" L-declarators ";"
+  
+  L-declarators.L-declarators--L-declarator-C-COMMA-L-declarators-D-Q =
+    L-declarator L-COMMA-L-declarators?
+  
+  L-COMMA-L-declarators.L-COMMA-L-declarators--COMMA-L-declarators =
+    "," L-declarators
+  
+  
+  L-declarator.L-declarator--L-id =
+    L-id
+  L-declarator.L-declarator--L-id-EQUALS-L-exp =
+    L-id "=" L-exp
+  L-declarator.L-declarator--L-id-L-ranks =
+    L-id L-ranks
+  
+  L-ranks.L-ranks--LBRACK-L-exps-RBRACK-L-ranks-Q =
+    "[" L-exps "]" L-ranks?
+  
+  L-func-decl.L-func-decl--R-function-L-id-LPAREN-L-ids-Q-RPAREN-L-block =
+    "function" L-id "(" L-ids? ")" L-block
+  
+  L-ids.L-ids--L-id-C-COMMA-L-ids-D-Q =
+    L-id L-COMMA-L-ids?
+  
+  L-COMMA-L-ids.L-COMMA-L-ids--COMMA-L-ids =
+    "," L-ids
+  
+  
+  
+context-free syntax // Semantics
+  
+  // #4 Declarations
+                
+  
+  FCT.T-declare =
+    "declare" "[:" L-decl ":]"
+  FCT.T-var-declare =
+    "var-declare" "[:" L-declarator ":]"
+  FCT-SEQ.T-ranks =
+    "ranks" "[:" L-ranks ":]"
+  FCT.T-initialise =
+    "initialise" "[:" L-decl ":]"
+  FCT-SEQ.T-patts =
+    "patts" "[:" L-ids? ":]"
+  
+context-free syntax // Desugaring
+  
+  // #4 Declarations
+                
+  
+  Term.ToTerm = "[:" L-stmts  ":]" ":" "stmts"
+  Term.ToTerm = "[:" L-decls  ":]" ":" "decls"
+  Term.ToTerm = "[:" L-ranks  ":]" ":" "ranks"
+  
+variables // Meta-variables
+  
+  // #4 Declarations
+                
+  
+  L-decl = "(:Decl" [1-9]? ":)" {prefer}
+  L-decl? = "(:Decl" [1-9]? "?:)" {prefer}
+  L-decl* = "(:Decl" [1-9]? "*:)" {prefer}
+  L-decl+ = "(:Decl" [1-9]? "+:)" {prefer}
+  L-vars-decl = "(:VarsDecl" [1-9]? ":)" {prefer}
+  L-vars-decl? = "(:VarsDecl" [1-9]? "?:)" {prefer}
+  L-vars-decl* = "(:VarsDecl" [1-9]? "*:)" {prefer}
+  L-vars-decl+ = "(:VarsDecl" [1-9]? "+:)" {prefer}
+  L-declarators = "(:Declarators" [1-9]? ":)" {prefer}
+  L-declarators? = "(:Declarators" [1-9]? "?:)" {prefer}
+  L-declarators* = "(:Declarators" [1-9]? "*:)" {prefer}
+  L-declarators+ = "(:Declarators" [1-9]? "+:)" {prefer}
+  L-declarator = "(:Declarator" [1-9]? ":)" {prefer}
+  L-declarator? = "(:Declarator" [1-9]? "?:)" {prefer}
+  L-declarator* = "(:Declarator" [1-9]? "*:)" {prefer}
+  L-declarator+ = "(:Declarator" [1-9]? "+:)" {prefer}
+  L-ranks = "(:Ranks" [1-9]? ":)" {prefer}
+  L-ranks? = "(:Ranks" [1-9]? "?:)" {prefer}
+  L-ranks* = "(:Ranks" [1-9]? "*:)" {prefer}
+  L-ranks+ = "(:Ranks" [1-9]? "+:)" {prefer}
+  L-func-decl = "(:FuncDecl" [1-9]? ":)" {prefer}
+  L-func-decl? = "(:FuncDecl" [1-9]? "?:)" {prefer}
+  L-func-decl* = "(:FuncDecl" [1-9]? "*:)" {prefer}
+  L-func-decl+ = "(:FuncDecl" [1-9]? "+:)" {prefer}
+  L-ids = "(:Ids" [1-9]? ":)" {prefer}
+  L-ids? = "(:Ids" [1-9]? "?:)" {prefer}
+  L-ids* = "(:Ids" [1-9]? "*:)" {prefer}
+  L-ids+ = "(:Ids" [1-9]? "+:)" {prefer}
+  
+// SDF comments
+  
+  // #4 Declarations
+                
+  
+  
+sorts // ASTs
+  T-start

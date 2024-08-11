@@ -1,0 +1,38 @@
+module SIMPLE-THR-Start
+            
+imports 
+  SIMPLE-THR-1-Lexical
+  SIMPLE-THR-2-Expressions
+  SIMPLE-THR-A-Disambiguation
+  SIMPLE-THR-3-Statements
+  SIMPLE-THR-4-Declarations
+  SIMPLE-THR-5-Programs
+  Funcons
+
+// Language "SIMPLE-THR"
+    
+lexical syntax // Language
+  
+syntax // Language
+  
+context-free syntax // Language
+  L-start.L-start--L-pgm =
+    L-pgm
+  
+  
+context-free syntax // Semantics
+  FCT.T-start =
+    "start" "[:" L-start ":]"
+  
+context-free syntax // Desugaring
+  
+variables // Meta-variables
+  L-start = "(:START" [1-9]? ":)" {prefer}
+  L-start? = "(:START" [1-9]? "?:)" {prefer}
+  L-start* = "(:START" [1-9]? "*:)" {prefer}
+  L-start+ = "(:START" [1-9]? "+:)" {prefer}
+  
+// SDF comments
+  
+sorts // ASTs
+  T-start

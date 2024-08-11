@@ -1,0 +1,94 @@
+module SIMPLE-THR-3-Statements
+
+imports
+  libstratego-gpp
+  signatures/-
+  pp/SIMPLE-THR-parenthesize
+  pp/SIMPLE-THR-pp
+
+imports
+  cbs-gen/SIMPLE-THR-4-Declarations
+  cbs-gen/SIMPLE-THR-1-Lexical
+  cbs-gen/SIMPLE-THR-2-Expressions
+
+// Language "SIMPLE-THR"
+
+rules
+
+// #3 Statements
+              
+
+to-desugared:
+  [: if((:Exp:))(:Block:) :] : stmt ->
+  [: if((:Exp:))(:Block:)else{} :] : stmt
+to-desugared:
+  [: for((:Stmt:)(:Exp1:);(:Exp2:)){(:Stmts:)} :] : stmt ->
+  [: {(:Stmt:)while((:Exp1:)){{(:Stmts:)}(:Exp2:);}} :] : stmt
+to-funcons:
+  |[ exec[: {} :] ]| ->
+  |[ null ]|
+to-funcons:
+  |[ exec[: {(:Stmts:)} :] ]| ->
+  |[ exec[: (:Stmts:) :] ]|
+to-funcons:
+  |[ exec[: (:ImpStmt:)(:Stmts:) :] ]| ->
+  |[ sequential (exec[: (:ImpStmt:) :], 
+             exec[: (:Stmts:) :]) ]|
+to-funcons:
+  |[ exec[: (:VarsDecl:)(:Stmts:) :] ]| ->
+  |[ scope (declare[: (:VarsDecl:) :], 
+             exec[: (:Stmts:) :]) ]|
+to-funcons:
+  |[ exec[: (:VarsDecl:) :] ]| ->
+  |[ effect (declare[: (:VarsDecl:) :]) ]|
+to-funcons:
+  |[ exec[: (:Exp:); :] ]| ->
+  |[ effect (rval[: (:Exp:) :]) ]|
+to-funcons:
+  |[ exec[: if((:Exp:))(:Block1:)else(:Block2:) :] ]| ->
+  |[ if-else (rval[: (:Exp:) :], 
+             exec[: (:Block1:) :], 
+             exec[: (:Block2:) :]) ]|
+to-funcons:
+  |[ exec[: while((:Exp:))(:Block:) :] ]| ->
+  |[ while (rval[: (:Exp:) :], 
+             exec[: (:Block:) :]) ]|
+to-funcons:
+  |[ exec[: print((:Exps:)); :] ]| ->
+  |[ print (rvals[: (:Exps:) :]) ]|
+to-funcons:
+  |[ exec[: return(:Exp:); :] ]| ->
+  |[ return (rval[: (:Exp:) :]) ]|
+to-funcons:
+  |[ exec[: return; :] ]| ->
+  |[ return (null) ]|
+to-funcons:
+  |[ exec[: try(:Block1:)catch((:Id:))(:Block2:) :] ]| ->
+  |[ handle-thrown (exec[: (:Block1:) :], 
+             scope (bind (id[: (:Id:) :], 
+                             allocate-initialised-variable (values, 
+                                     given)), 
+                     exec[: (:Block2:) :])) ]|
+to-funcons:
+  |[ exec[: throw(:Exp:); :] ]| ->
+  |[ throw (rval[: (:Exp:) :]) ]|
+to-funcons:
+  |[ exec[: join(:Exp:); :] ]| ->
+  |[ thread-join lookup-index (rval[: (:Exp:) :]) ]|
+to-funcons:
+  |[ exec[: acquire(:Exp:); :] ]| ->
+  |[ give (memo-value (rval[: (:Exp:) :], 
+                     reentrant-lock-create), 
+             sequential (postpone if-true-else (is-exclusive-lock-holder given, 
+                                    reentrant-lock-release given, 
+                                    null-value), 
+                     reentrant-lock-sync-else-wait given)) ]|
+to-funcons:
+  |[ exec[: release(:Exp:); :] ]| ->
+  |[ reentrant-lock-exit memo-value-recall rval[: (:Exp:) :] ]|
+to-funcons:
+  |[ exec[: rendezvous(:Exp:); :] ]| ->
+  |[ rendezvous-sync-else-wait (memo-value ("rendezvous", 
+                     rendezvous-create (2)), 
+             rval[: (:Exp:) :]) ]|
+

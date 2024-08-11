@@ -1,0 +1,116 @@
+module SIMPLE-THR-3-Statements
+            
+imports 
+  SIMPLE-THR-4-Declarations
+  SIMPLE-THR-1-Lexical
+  SIMPLE-THR-2-Expressions
+  Funcons
+
+// Language "SIMPLE-THR"
+    
+lexical syntax // Language
+  
+  // #3 Statements
+                
+  
+  
+syntax // Language
+  
+  // #3 Statements
+                
+  
+  
+context-free syntax // Language
+  
+  // #3 Statements
+                
+  
+  L-block.L-block--LBRACE-L-stmts-Q-RBRACE =
+    "{" L-stmts? "}"
+  
+  L-stmts.L-stmts--L-stmt-L-stmts-Q =
+    L-stmt L-stmts?
+  
+  L-stmt.L-stmt--L-imp-stmt =
+    L-imp-stmt
+  L-stmt.L-stmt--L-vars-decl =
+    L-vars-decl
+  
+  L-imp-stmt.L-imp-stmt--L-block =
+    L-block
+  L-imp-stmt.L-imp-stmt--L-exp-SEMI =
+    L-exp ";"
+  L-imp-stmt.L-imp-stmt--R-if-LPAREN-L-exp-RPAREN-L-block-C-R-else-L-block-D-Q =
+    "if" "(" L-exp ")" L-block L-R-else-L-block?
+  L-imp-stmt.L-imp-stmt--R-while-LPAREN-L-exp-RPAREN-L-block =
+    "while" "(" L-exp ")" L-block
+  L-imp-stmt.L-imp-stmt--R-for-LPAREN-L-stmt-L-exp-SEMI-L-exp-RPAREN-L-block =
+    "for" "(" L-stmt L-exp ";" L-exp ")" L-block
+  L-imp-stmt.L-imp-stmt--R-print-LPAREN-L-exps-RPAREN-SEMI =
+    "print" "(" L-exps ")" ";"
+  L-imp-stmt.L-imp-stmt--R-return-L-exp-Q-SEMI =
+    "return" L-exp? ";"
+  L-imp-stmt.L-imp-stmt--R-try-L-block-R-catch-LPAREN-L-id-RPAREN-L-block =
+    "try" L-block "catch" "(" L-id ")" L-block
+  L-imp-stmt.L-imp-stmt--R-throw-L-exp-SEMI =
+    "throw" L-exp ";"
+  L-imp-stmt.L-imp-stmt--R-join-L-exp-SEMI =
+    "join" L-exp ";"
+  L-imp-stmt.L-imp-stmt--R-acquire-L-exp-SEMI =
+    "acquire" L-exp ";"
+  L-imp-stmt.L-imp-stmt--R-release-L-exp-SEMI =
+    "release" L-exp ";"
+  L-imp-stmt.L-imp-stmt--R-rendezvous-L-exp-SEMI =
+    "rendezvous" L-exp ";"
+  
+  L-R-else-L-block.L-R-else-L-block--R-else-L-block =
+    "else" L-block
+  
+  
+  
+context-free syntax // Semantics
+  
+  // #3 Statements
+                
+  
+  FCT.T-exec =
+    "exec" "[:" L-stmts ":]"
+  
+context-free syntax // Desugaring
+  
+  // #3 Statements
+                
+  
+  Term.ToTerm = "[:" L-stmt  ":]" ":" "stmt"
+  Term.ToTerm = "[:" L-stmt  ":]" ":" "stmt"
+  
+variables // Meta-variables
+  
+  // #3 Statements
+                
+  
+  L-block = "(:Block" [1-9]? ":)" {prefer}
+  L-block? = "(:Block" [1-9]? "?:)" {prefer}
+  L-block* = "(:Block" [1-9]? "*:)" {prefer}
+  L-block+ = "(:Block" [1-9]? "+:)" {prefer}
+  L-stmts = "(:Stmts" [1-9]? ":)" {prefer}
+  L-stmts? = "(:Stmts" [1-9]? "?:)" {prefer}
+  L-stmts* = "(:Stmts" [1-9]? "*:)" {prefer}
+  L-stmts+ = "(:Stmts" [1-9]? "+:)" {prefer}
+  L-stmt = "(:Stmt" [1-9]? ":)" {prefer}
+  L-stmt? = "(:Stmt" [1-9]? "?:)" {prefer}
+  L-stmt* = "(:Stmt" [1-9]? "*:)" {prefer}
+  L-stmt+ = "(:Stmt" [1-9]? "+:)" {prefer}
+  L-imp-stmt = "(:ImpStmt" [1-9]? ":)" {prefer}
+  L-imp-stmt? = "(:ImpStmt" [1-9]? "?:)" {prefer}
+  L-imp-stmt* = "(:ImpStmt" [1-9]? "*:)" {prefer}
+  L-imp-stmt+ = "(:ImpStmt" [1-9]? "+:)" {prefer}
+  
+// SDF comments
+  
+  // #3 Statements
+                
+  
+  
+sorts // ASTs
+  T-start
