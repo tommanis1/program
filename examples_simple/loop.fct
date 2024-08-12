@@ -1,0 +1,9 @@
+initialise-binding initialise-storing scope(
+    bind("i", alloc-init(values, decimal-natural("0"))),
+    while (true,
+        assign(bound "i", integer-add (
+            assigned(bound("i")),
+            decimal-natural("1"))
+        ) 
+    )
+)

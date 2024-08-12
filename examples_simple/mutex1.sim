@@ -1,0 +1,56 @@
+var 
+    limit = 2
+    , turn = 0
+    , c0 = false
+    , critical [2]
+    , i [2]
+    , t [2]
+
+;
+
+function init(){
+    critical[0] = false;
+    critical[1] = false;
+
+    i[0] = 0; i[1] = 0;
+}
+
+function void() {return;}
+function other(self) {return (self+1)%2;}
+
+function acquir(self) {
+    while(turn == other(self)) {void();}
+    return;
+}
+
+function relinquish(self) {
+    turn = other(self);
+    return;
+}
+
+function loop(self) {
+    while(i[self] < limit) {
+        acquir(self);
+        // Critical section
+        critical[self] = true;
+        print(self);
+        print(turn);
+        critical[self] = false;
+        relinquish(self);
+        print(turn);
+        i[self] = i[self] + 1;
+    }
+    return;
+}
+
+function main() {
+    init();
+    //t[0] = 
+    spawn {loop(0);};
+    //t[1] = 
+    spawn {loop(1);};
+
+   // join t[0];
+    //join t[1];
+    return;
+}

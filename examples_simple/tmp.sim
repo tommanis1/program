@@ -1,0 +1,16 @@
+var 
+
+     critical [2]
+     , i = 0
+
+;
+
+function init(){
+    critical[0] = true;
+    critical[1] = true;
+}
+function main() {
+    init();
+    if (critical[0] && critical[1]) {} {}
+
+}

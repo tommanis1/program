@@ -1,0 +1,9 @@
+initialise-binding initialise-storing initialise-giving initialise-memos finalise-failing finalise-throwing multithread postpone-after-effect scope (bind ("i",         allocate-initialised-variable           (values,            decimal-natural              ("0"))), sequential(                 
+   
+ print (bound "i")  ,
+ effect
+                       (allocate-index thread-activate thread-joinable thunk closure postpone-after-effect print bound "i")
+
+    ,   print (bound "i")  
+    
+               ))
