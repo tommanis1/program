@@ -40,7 +40,10 @@ to-funcons:
 to-funcons:
   |[ var-declare[: (:Id:)(:Ranks:) :] ]| ->
   |[ bind (id[: (:Id:) :], 
-             allocate-nested-vectors (ranks[: (:Ranks:) :])) ]|
+             allocate-initialised-variable (vectors (variables), 
+                     vector (left-to-right-repeat (allocate-variable (values), 
+                                     1, 
+                                     ranks[: (:Ranks:) :])))) ]|
 to-desugared:
   [: [(:Exp:),(:Exps:)](:Ranks?:) :] : ranks ->
   [: [(:Exp:)][(:Exps:)](:Ranks?:) :] : ranks
@@ -49,8 +52,7 @@ to-funcons:
   |[ rval[: (:Exp:) :] ]|
 to-funcons:
   |[ ranks[: [(:Exp:)](:Ranks:) :] ]| ->
-  |[ rval[: (:Exp:) :], 
-     ranks[: (:Ranks:) :] ]|
+  |[ rval[: (:Exp:) :] ]|
 to-funcons:
   |[ declare[: function(:Id:)((:Ids?:))(:Block:) :] ]| ->
   |[ bind (id[: (:Id:) :], 
