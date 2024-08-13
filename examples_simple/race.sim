@@ -1,6 +1,7 @@
 var i = 0;
 
 function main() {
-    spawn{i = i +1;};
-    spawn{i = i +1;};
+    spawn{i = i +1; print(i);};
+    spawn{i = i +1; print(i);};
+    print(i);
 }
